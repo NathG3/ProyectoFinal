@@ -41,7 +41,6 @@ namespace ProyectoFinal.Repository
                     producto.IdUsuario = Convert.ToInt32(reader.GetValue(5));
 
                     listaProducto.Add(producto);
-
                 }
 
                 reader.Close();
@@ -53,59 +52,29 @@ namespace ProyectoFinal.Repository
 
         }
 
-        internal static void ModificarProducto(int prd, Producto pr2)
+        public static void ModificarProducto(Producto pr)
         {
             using (SqlConnection connection = new SqlConnection(General.connectionString()))
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
 
+                cmd.CommandText = "UPDATE Producto SET Descripciones = @PrdDesc, Costo = @PrdCosto, PrecioVenta = @PrdPrecioVenta," +
+                    " Stock = @PrdStock,IdUsuario= @PrdIdUsu WHERE  Id = @PrdId";
 
-                cmd.CommandText = "UPDATE Producto SET Descripcion = @PrdDesc, Costo = @PrdCosto, PrecioVenta = @PrdPrecioVenta," +
-                    " Stock = @PrdStock,IdUsuario= @PrdIdUsu WHERE  Id = @prd";
-
-
-                var paramDescripciones = new SqlParameter();
-                paramDescripciones.ParameterName = "PrdDesc";
-                paramDescripciones.SqlDbType = SqlDbType.VarChar;
-                paramDescripciones.Value = pr2.Descripciones;
-
-
-                var paramCosto = new SqlParameter();
-                paramCosto.ParameterName = "PrdCosto";
-                paramCosto.SqlDbType = SqlDbType.VarChar;
-                paramCosto.Value = pr2.Costo;
-
-                var paramPrecioVenta = new SqlParameter();
-                paramPrecioVenta.ParameterName = "PrdPrecioVenta";
-                paramPrecioVenta.SqlDbType = SqlDbType.VarChar;
-                paramPrecioVenta.Value = pr2.PrecioVenta;
-
-                var paramStock = new SqlParameter();
-                paramStock.ParameterName = "PrdStock";
-                paramStock.SqlDbType = SqlDbType.VarChar;
-                paramStock.Value = pr2.Stock;
-
-                var paramIdUsuario = new SqlParameter();
-                paramIdUsuario.ParameterName = "PrdIdUsu";
-                paramIdUsuario.SqlDbType = SqlDbType.VarChar;
-                paramIdUsuario.Value = pr2.IdUsuario;
-
-                cmd.Parameters.Add(paramDescripciones);
-                cmd.Parameters.Add(paramCosto);
-                cmd.Parameters.Add(paramPrecioVenta);
-                cmd.Parameters.Add(paramStock);
-                cmd.Parameters.Add(paramIdUsuario);
+                cmd.Parameters.Add(new SqlParameter("PrdId", pr.Id));
+                cmd.Parameters.Add(new SqlParameter("PrdDesc", pr.Descripciones));
+                cmd.Parameters.Add(new SqlParameter("PrdCosto", pr.Costo));
+                cmd.Parameters.Add(new SqlParameter("PrdPrecioVenta", pr.PrecioVenta));
+                cmd.Parameters.Add(new SqlParameter("PrdStock", pr.Descripciones));
+                cmd.Parameters.Add(new SqlParameter("PrdIdUsu", pr.IdUsuario));
 
                 cmd.ExecuteNonQuery();
                 connection.Close();
-
-
-
             }
         }
 
-        internal static void AgregarProducto(Producto pr)
+        public static void AgregarProducto(Producto pr)
         {
             using (SqlConnection connection = new SqlConnection(General.connectionString()))
             {
@@ -114,45 +83,13 @@ namespace ProyectoFinal.Repository
                 cmd.CommandText = "INSERT into Producto (Descripciones, Costo, PrecioVenta, Stock, IdUsuario)" +
                     " VALUES (@PrdDesc, @PrdCosto, @PrdPrecioVenta, @PrdStock, @PrdIdUsu)";
 
+                /////////////revisar falta validar los datos obligatorios
 
-                //cmd.Parameters.Add(new SqlParameter("NombreUsu", nombreUsuario));
-                //cmd.Parameters.Add(new SqlParameter("Contraseña", contraseña));
-
-
-                /////////////falta validar los datos obligatorios
-                /////////////agregar validacion para saber si existe el userid 
-
-                var paramDescripciones = new SqlParameter();
-                paramDescripciones.ParameterName = "PrdDesc";
-                paramDescripciones.SqlDbType = SqlDbType.VarChar;
-                paramDescripciones.Value = pr.Descripciones;
-
-
-                var paramCosto = new SqlParameter();
-                paramCosto.ParameterName = "PrdCosto";
-                paramCosto.SqlDbType = SqlDbType.VarChar;
-                paramCosto.Value = pr.Costo;
-
-                var paramPrecioVenta = new SqlParameter();
-                paramPrecioVenta.ParameterName = "PrdPrecioVenta";
-                paramPrecioVenta.SqlDbType = SqlDbType.VarChar;
-                paramPrecioVenta.Value = pr.PrecioVenta;
-
-                var paramStock = new SqlParameter();
-                paramStock.ParameterName = "PrdStock";
-                paramStock.SqlDbType = SqlDbType.VarChar;
-                paramStock.Value = pr.Stock;
-
-                var paramIdUsuario = new SqlParameter();
-                paramIdUsuario.ParameterName = "PrdIdUsu";
-                paramIdUsuario.SqlDbType = SqlDbType.VarChar;
-                paramIdUsuario.Value = pr.IdUsuario;
-
-                cmd.Parameters.Add(paramDescripciones);
-                cmd.Parameters.Add(paramCosto);
-                cmd.Parameters.Add(paramPrecioVenta);
-                cmd.Parameters.Add(paramStock);
-                cmd.Parameters.Add(paramIdUsuario);
+                cmd.Parameters.Add(new SqlParameter("PrdDesc", pr.Descripciones));
+                cmd.Parameters.Add(new SqlParameter("PrdCosto", pr.Costo));
+                cmd.Parameters.Add(new SqlParameter("PrdPrecioVenta", pr.PrecioVenta));
+                cmd.Parameters.Add(new SqlParameter("PrdStock", pr.Descripciones));
+                cmd.Parameters.Add(new SqlParameter("PrdIdUsu", pr.IdUsuario));
 
                 cmd.ExecuteNonQuery();
                 connection.Close();

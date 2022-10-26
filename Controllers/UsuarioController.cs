@@ -17,13 +17,21 @@ namespace ProyectoFinal.Controllers
         //    return ADO_Usuario.TraerUsuario();
         //}
 
-        [HttpPut]
+        [HttpGet("TraerUsuario")]
+        
+        public Usuario TraerUsuario(string nombreUsuario)
+        {
+            return ADO_Usuario.TraerUsuario(nombreUsuario);
+        }
+
+
+        [HttpPut("ActualizarUsuario")]
         public void Modificar([FromBody] Usuario us)
         {
             ADO_Usuario.ModificarUsuario(us);
         }
 
-        [HttpPost]
+        [HttpPost("AgregarUsuario")]
         public void Agregar([FromBody] Usuario us)
 
         {

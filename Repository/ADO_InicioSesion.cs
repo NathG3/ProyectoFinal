@@ -33,6 +33,7 @@ namespace ProyectoFinal.Repository
                 else
                 {
                     datosUsuario = new Usuario();
+
                 }
 
                 reader4.Close();
