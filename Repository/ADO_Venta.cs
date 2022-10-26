@@ -40,7 +40,6 @@ namespace ProyectoFinal.Repository
 
                 }
 
-
                 reader3.Close();
                 connection.Close();
 
@@ -49,7 +48,70 @@ namespace ProyectoFinal.Repository
             }
 
         }
+
+        public static void CargarVenta(List<Producto> pv, int idUsuario)
+        {
+            using (SqlConnection connection = new SqlConnection(General.connectionString()))
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "INSERT into Venta (Comentarios, IdUsuario) values ('', @idUsuario); select @@identity";
+
+                var paramIdUsuario = new SqlParameter();
+                paramIdUsuario.ParameterName = "idUsuario";
+                paramIdUsuario.SqlDbType = SqlDbType.BigInt;
+                paramIdUsuario.Value = idUsuario;
+
+                cmd.Parameters.Add(paramIdUsuario);
+                int ventaId = Convert.ToInt32(cmd.ExecuteScalar());
+                
+                List<string> productoSinStock = new List<string>();
+                string prodDesc = string.Empty;
+                List<string> prodDescList = new List<string>();
+
+
+                foreach (var Producto in pv)
+                {
+
+                    cmd.Parameters.Add(new SqlParameter("Stock", Producto.Stock));
+                    cmd.Parameters.Add(new SqlParameter("IdProd", Producto.Id));
+                    cmd.Parameters.Add(new SqlParameter("IdVent", ventaId));
+
+                    cmd.CommandText = "SELECT Stock From Producto where Id = @IdProd ";
+                    int stockExistente = Convert.ToInt32(cmd.ExecuteScalar());
+
+
+                    if (stockExistente >= Producto.Stock)
+
+                    {
+                        cmd.CommandText = "INSERT into ProductoVendido (Stock, IdProducto, IdVenta) " +
+                          "values (@Stock, @IdProd, @IdVent)";
+
+
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "UPDATE Producto set Stock = Stock - @Stock where Id = @IdProd";
+
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "SELECT Descripciones From Producto where Id = @IdProd";
+                        prodDesc = Convert.ToString(cmd.ExecuteScalar());
+                        prodDescList.Add(prodDesc.ToString());
+                        productoSinStock.Add(Producto.Id.ToString());
+
+                        cmd.CommandText = "UPDATE Venta set Comentarios = @Comentarios where Id = @IdVent";
+
+                        string comentario = "Productos vendidos: " + string.Join(", ", prodDescList);
+                        cmd.Parameters.Add(new SqlParameter("Comentarios", comentario));
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    cmd.Parameters.Clear();
+                }
+
+                connection.Close();
+            }
+
+        }
     }
 }
-
-

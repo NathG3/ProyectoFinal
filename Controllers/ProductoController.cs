@@ -9,23 +9,23 @@ namespace ProyectoFinal.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("AgregarProducto")]
         public void AgregarProducto([FromBody] Producto pr)
 
         {
             ADO_Producto.AgregarProducto(pr);
         }
 
-        [HttpDelete]
+        [HttpDelete("EliminarProducto")]
         public void EliminarProducto([FromBody] int id)
         {
             ADO_Producto.EliminarProducto(id);
         }
 
-        [HttpPut]
-        public void ModificarProducto([FromBody] Producto prd)
+        [HttpPut("ModificarProducto")]
+        public void ModificarProducto([FromBody] Producto pr)
         {
-            //ADO_Producto.ModificarProducto(prd);
+            ADO_Producto.ModificarProducto(pr);
         }
     }
 }

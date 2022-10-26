@@ -1,21 +1,21 @@
-﻿//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using ProyectoFinal.Model;
-//using ProyectoFinal.Repository;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using ProyectoFinal.Model;
+using ProyectoFinal.Repository;
 
-//namespace ProyectoFinal.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class VentaController : ControllerBase
-//    {
-//        [HttpPost]
-//        public void XAgregarProducto([FromBody] Producto pr)
+namespace ProyectoFinal.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class VentaController : ControllerBase
+    {
+        [HttpPost("CargarVenta")]
+        public void CargarVenta([FromBody] List<Producto> pv, int idUsuario)
 
-//        {
-//            ADO_Venta.XAgregarProducto(pr);
-//        }
-//    }
-//}
+        {
+            ADO_Venta.CargarVenta(pv, idUsuario);
+        }
+    }
+}
 
 
