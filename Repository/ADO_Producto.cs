@@ -66,7 +66,7 @@ namespace ProyectoFinal.Repository
                 cmd.Parameters.Add(new SqlParameter("PrdDesc", pr.Descripciones));
                 cmd.Parameters.Add(new SqlParameter("PrdCosto", pr.Costo));
                 cmd.Parameters.Add(new SqlParameter("PrdPrecioVenta", pr.PrecioVenta));
-                cmd.Parameters.Add(new SqlParameter("PrdStock", pr.Descripciones));
+                cmd.Parameters.Add(new SqlParameter("PrdStock", pr.Stock));
                 cmd.Parameters.Add(new SqlParameter("PrdIdUsu", pr.IdUsuario));
 
                 cmd.ExecuteNonQuery();
@@ -83,12 +83,11 @@ namespace ProyectoFinal.Repository
                 cmd.CommandText = "INSERT into Producto (Descripciones, Costo, PrecioVenta, Stock, IdUsuario)" +
                     " VALUES (@PrdDesc, @PrdCosto, @PrdPrecioVenta, @PrdStock, @PrdIdUsu)";
 
-                /////////////revisar falta validar los datos obligatorios
 
                 cmd.Parameters.Add(new SqlParameter("PrdDesc", pr.Descripciones));
                 cmd.Parameters.Add(new SqlParameter("PrdCosto", pr.Costo));
                 cmd.Parameters.Add(new SqlParameter("PrdPrecioVenta", pr.PrecioVenta));
-                cmd.Parameters.Add(new SqlParameter("PrdStock", pr.Descripciones));
+                cmd.Parameters.Add(new SqlParameter("PrdStock", pr.Stock));
                 cmd.Parameters.Add(new SqlParameter("PrdIdUsu", pr.IdUsuario));
 
                 cmd.ExecuteNonQuery();

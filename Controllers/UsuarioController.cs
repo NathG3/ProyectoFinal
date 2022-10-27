@@ -25,7 +25,7 @@ namespace ProyectoFinal.Controllers
         }
 
 
-        [HttpPut("ActualizarUsuario")]
+        [HttpPut("ModificarUsuario")]
         public void Modificar([FromBody] Usuario us)
         {
             ADO_Usuario.ModificarUsuario(us);

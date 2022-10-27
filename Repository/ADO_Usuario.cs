@@ -63,7 +63,7 @@ namespace ProyectoFinal.Repository
 
                     cmd.Parameters.Add(new SqlParameter("Nombre", us.Nombre));
                     cmd.Parameters.Add(new SqlParameter("Apellido", us.Apellido));
-                    cmd.Parameters.Add(new SqlParameter("NombreUsuario", us.Nombre));
+                    cmd.Parameters.Add(new SqlParameter("NombreUsuario", us.NombreUsuario));
                     cmd.Parameters.Add(new SqlParameter("Contraseña", us.Contraseña));
                     cmd.Parameters.Add(new SqlParameter("Mail", us.Mail));
 
@@ -75,28 +75,20 @@ namespace ProyectoFinal.Repository
 
         public static void ModificarUsuario(Usuario us)
 
-        ///////// revisar agregar para modificar los demas campos
         {
-
             using (SqlConnection connection = new SqlConnection(General.connectionString()))
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
 
-                cmd.CommandText = "UPDATE Usuario SET Contraseña = @UsContraseña, Mail = @usMail WHERE NombreUsuario = 'string'";
+                cmd.CommandText = "UPDATE Usuario SET Nombre = @Nombre, Apellido = @Apellido, NombreUsuario = @NombreUsuario," +
+                    "Contraseña = @Contraseña, Mail = @Mail WHERE NombreUsuario = 'string'";
 
-                var paramContraseña = new SqlParameter();
-                paramContraseña.ParameterName = "UsContraseña";
-                paramContraseña.SqlDbType = SqlDbType.VarChar;
-                paramContraseña.Value = us.Contraseña;
-
-                var paramMail = new SqlParameter();
-                paramMail.ParameterName = "usMail";
-                paramMail.SqlDbType = SqlDbType.VarChar;
-                paramMail.Value = us.Mail;
-
-                cmd.Parameters.Add(paramContraseña);
-                cmd.Parameters.Add(paramMail);
+                cmd.Parameters.Add(new SqlParameter("Nombre", us.Nombre));
+                cmd.Parameters.Add(new SqlParameter("Apellido", us.Apellido));
+                cmd.Parameters.Add(new SqlParameter("NombreUsuario", us.NombreUsuario));
+                cmd.Parameters.Add(new SqlParameter("Contraseña", us.Contraseña));
+                cmd.Parameters.Add(new SqlParameter("Mail", us.Mail));
 
                 cmd.ExecuteNonQuery();
                 connection.Close();
